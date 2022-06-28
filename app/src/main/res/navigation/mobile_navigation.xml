@@ -12,14 +12,19 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.bluesky.autojiahua.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_monitor"
+        android:name="com.bluesky.autojiahua.ui.monitor.MonitorFragment"
+        android:label="@string/menu_monitor"
+        tools:layout="@layout/fragment_monitor" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.bluesky.autojiahua.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_special"
+        android:name="com.bluesky.autojiahua.ui.special.SpecialFragment"
+        android:label="@string/menu_special"
+        tools:layout="@layout/fragment_special" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.bluesky.autojiahua.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
 </navigation>
