@@ -12,12 +12,11 @@
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
     <ImageView
+        android:id="@+id/iv_splash_pic"
         android:layout_width="match_parent"
         android:layout_height="320dp"
         android:layout_gravity="center"
-        android:id="@+id/iv_splash_pic"
-        android:src="@mipmap/ic_launcher_foreground"
-        />
+        android:src="@mipmap/ic_launcher_foreground" />
     <TextView
         android:id="@+id/tv_splash_content"
         android:layout_width="match_parent"

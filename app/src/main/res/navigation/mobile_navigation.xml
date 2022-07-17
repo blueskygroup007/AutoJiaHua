@@ -9,7 +9,12 @@
         android:id="@+id/nav_home"
         android:name="com.bluesky.autojiahua.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+
+        <action
+            android:id="@+id/action_nav_home_to_nav_detail"
+            app:destination="@id/nav_detail" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_monitor"
@@ -27,4 +32,9 @@
         android:name="com.bluesky.autojiahua.LoginActivity"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
+    <fragment
+        android:id="@+id/nav_detail"
+        android:name="com.bluesky.autojiahua.ui.home.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" />
 </navigation>

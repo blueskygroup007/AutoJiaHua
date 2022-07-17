@@ -13,7 +13,7 @@ import com.bluesky.autojiahua.bean.Device;
  * @date 2022/7/16
  * Description:
  */
-@Database(entities = {Device.class}, version = 1)
+@Database(entities = {Device.class}, version = 1,exportSchema = false)
 public abstract class AutoDatabase extends RoomDatabase {
     private static AutoDatabase INSTANCE;
 

@@ -1,5 +1,6 @@
 package com.bluesky.autojiahua.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -15,14 +16,15 @@ import java.util.List;
  */
 public interface DeviceDao {
     @Query("select * from device")
-    List<Device> getAll();
+    LiveData<List<Device>> getAll();
 
     @Query("select * from device where tag like :tag")
-    List<Device> loadAllByTag(String tag);
+    LiveData<List<Device>> getDevicesByTag(String tag);
 
     @Insert
     void insertAll(Device... devices);
 
     @Delete
     void delete(Device device);
+
 }
