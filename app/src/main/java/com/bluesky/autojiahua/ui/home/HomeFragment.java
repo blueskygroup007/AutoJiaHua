@@ -25,6 +25,7 @@ public class HomeFragment extends Fragment {
     private List<Device> deviceList=new ArrayList<>();
     private DeviceAdapter mAdapter;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -39,9 +40,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void subscribeUI(DeviceAdapter adapter) {
-        homeViewModel.getDevices().observe(getViewLifecycleOwner(), devices -> adapter.setData(devices));
+        homeViewModel.getDevices().observe(getViewLifecycleOwner(), adapter::setData);
 
-        //todo 创建recyclerview
+        //创建recyclerview
         binding.rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvList.setHasFixedSize(true);
         binding.rvList.setAdapter(mAdapter);

@@ -1,0 +1,10 @@
+笔记:
+
+*.database虽然是用的资源文件预加载,但文件是直接拷贝自版本2.因此会报错,需要有2->1的版本迁移策略,或者允许失败回滚.
+  将版本改为2解决.
+
+*.room报错缺少impl.是因为缺少依赖:    annotationProcessor 'androidx.room:room-compiler:2.3.0'
+
+*.Room的数据库db文件想要拷贝到其他app中使用,则AppDatabase的参数要相同:@Database(entities = {Device.class, InterLock.class}, version = 2,exportSchema = false)
+
+*.ViewModel必须有无参数的构造函数,因为viewmode不是new出来的.

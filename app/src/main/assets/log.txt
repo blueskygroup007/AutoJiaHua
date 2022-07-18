@@ -1,0 +1,46 @@
+数据库转换步骤：
+1.excel中，删除序号列，删除合并列，删除合并行。
+2.更改excel表名，
+3.更改列名
+4.删除空行和空列，可用隐藏。
+
+5.导入到sqlite数据库中。
+6.查看是否有无效的TAG出现。
+
+7.保存数据库，拷贝到模拟器或真机中。如有另外两个辅助文件，则删除。
+8.修改db数据库读写权限
+    adb shell
+    su
+    chmod 777 /data/data/com.bluesky.automationjiahua/databases/liansuo.db
+    chmod 777 /data/data/com.bluesky.automationjiahua/databases/huachan.db-shm
+    chmod 777 /data/data/com.bluesky.automationjiahua/databases/huachan.db-wal
+
+9.将insert方法加了@Insert(onConflict = OnConflictStrategy.REPLACE)，以保证主键重复时，强制覆盖
+
+无线调试命令行方法:
+Android 手机需要是 Android 11 以上系统；
+电脑上的 Android SDK 工具需要 ≥ 30.0.0 版本，确认方式是：adb --version >30
+
+Android Debug Bridge version 1.0.41
+Version 31.0.0-7110759
+Installed as F:\AndroidSDK\platform-tools\adb.exe
+
+
+1.输入：adb pair 192.168.31.108:41865
+
+2.Enter pairing code输入 139422
+
+Successfully paired to 192.168.31.108:38529 [guid=adb-39d97fdf-HzldeT]
+
+
+
+git代理设置与取消:
+git config --global http.proxy 127.0.0.1:8889
+git config --global https.proxy https://127.0.0.1:8889
+git config --global http.proxy 'socks5://127.0.0.1:1089'
+git config --global https.proxy 'socks5://127.0.0.1:1089'
+
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+
+可以考虑转到gitee仓库

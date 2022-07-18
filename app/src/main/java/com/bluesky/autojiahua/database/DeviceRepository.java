@@ -14,11 +14,22 @@ import java.util.List;
  */
 public class DeviceRepository {
     private DeviceDao mDeviceDao;
-    private static volatile DeviceRepository sRepository;
+    private static volatile DeviceRepository INSTANCE;
 
     public DeviceRepository() {
         AutoDatabase database = AutoDatabase.getDatabase(App.getInstance().getApplicationContext());
         mDeviceDao = database.deviceDao();
+    }
+
+    public static DeviceRepository getInstance(DeviceDao deviceDao) {
+        if (INSTANCE == null) {
+            synchronized (DeviceRepository.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new DeviceRepository();
+                }
+            }
+        }
+        return INSTANCE;
     }
 
     public LiveData<List<Device>> getAllDevices() {

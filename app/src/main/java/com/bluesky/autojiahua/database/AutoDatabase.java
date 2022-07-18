@@ -7,18 +7,19 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.bluesky.autojiahua.bean.Device;
+import com.bluesky.autojiahua.bean.InterLock;
 
 /**
  * @author BlueSky
  * @date 2022/7/16
  * Description:
  */
-@Database(entities = {Device.class}, version = 1,exportSchema = false)
+@Database(entities = {Device.class, InterLock.class}, version = 2,exportSchema = false)
 public abstract class AutoDatabase extends RoomDatabase {
     private static AutoDatabase INSTANCE;
 
     public abstract DeviceDao deviceDao();
-
+    public abstract InterLockDao ingerLockDao();
     public static synchronized AutoDatabase getDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AutoDatabase.class, "jiahua.db")

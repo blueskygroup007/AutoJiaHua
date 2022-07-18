@@ -1,6 +1,7 @@
 package com.bluesky.autojiahua.database;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -14,6 +15,7 @@ import java.util.List;
  * @date 2022/7/16
  * Description:
  */
+@Dao
 public interface DeviceDao {
     @Query("select * from device")
     LiveData<List<Device>> getAll();
