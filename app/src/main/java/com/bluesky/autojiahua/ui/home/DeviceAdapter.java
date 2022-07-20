@@ -79,6 +79,7 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
             mBinding.tvNumber.setText(String.valueOf(position + 1));
             mBinding.tvTag.setText(device.getTag());
             mBinding.tvAffect.setText(device.getAffect());
+            //把监听器给了root。所以把cardview的clickable去掉。防止拦截
             mBinding.getRoot().setOnClickListener(listener);
         }
     }

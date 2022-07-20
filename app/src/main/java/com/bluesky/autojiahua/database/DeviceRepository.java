@@ -39,6 +39,10 @@ public class DeviceRepository {
     public LiveData<List<Device>> getDevicesByTag(String tag) {
         return mDeviceDao.getDevicesByTag(tag);
     }
+
+    public LiveData<List<Device>> getDeviceBykeyWord(String domain, String search, String keyWord) {
+        return mDeviceDao.getDevicesByKeyWord(domain, search, keyWord);
+    }
 }
 
 

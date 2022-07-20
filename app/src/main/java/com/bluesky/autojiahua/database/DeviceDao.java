@@ -29,4 +29,6 @@ public interface DeviceDao {
     @Delete
     void delete(Device device);
 
+    @Query("select * from device where domain=:domain and :search like :keyWord")
+    LiveData<List<Device>> getDevicesByKeyWord(String domain, String search, String keyWord);
 }

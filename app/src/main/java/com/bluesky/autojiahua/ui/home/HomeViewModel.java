@@ -14,6 +14,17 @@ import java.util.List;
 public class HomeViewModel extends ViewModel {
 
     private MediatorLiveData<List<Device>> mDevices=new MediatorLiveData<>();
+    private int mDomain;
+    private int mSearch;
+    private String mKeyWord="";
+
+    public String getKeyWord() {
+        return mKeyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        mKeyWord = keyWord;
+    }
 
     //ViewModel必须有无参数的构造函数
     public HomeViewModel() {
@@ -23,10 +34,38 @@ public class HomeViewModel extends ViewModel {
                 mDevices.setValue(devices);
             }
         });
+
     }
 
+    public int getDomain() {
+        mDomain=App.HOME_SPINNER_DOMAIN;
+        return mDomain;
+    }
+
+    public void setDomain(int domain) {
+        App.putDomain(domain);
+        mDomain = domain;
+    }
+
+    public int getSearch() {
+        mSearch=App.HOME_SPINNER_SEARCH;
+        return mSearch;
+    }
+
+    public void setSearch(int search) {
+        App.putSearch(search);
+        mSearch = search;
+
+    }
 
     public MediatorLiveData<List<Device>> getDevices() {
+        return mDevices;
+    }
+
+    public MediatorLiveData<List<Device>> findDevices() {
+        DeviceRepository.getInstance(AutoDatabase.getDatabase(App.getInstance()).deviceDao())
+                .getDeviceBykeyWord(App.DOMAIN[mDomain],App.SEARCH[mSearch],mKeyWord);
+        //todo 这里获取到查询数据库的结果LiveData，如何赋值给被监听的mDevices
         return mDevices;
     }
 }
