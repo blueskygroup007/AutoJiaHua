@@ -41,7 +41,26 @@ public class DeviceRepository {
     }
 
     public LiveData<List<Device>> getDeviceBykeyWord(String domain, String search, String keyWord) {
-        return mDeviceDao.getDevicesByKeyWord(domain, search, keyWord);
+        StringBuilder pattern = new StringBuilder();
+        //如果domain为空,直接跳过该条件.
+        if (!domain.isEmpty()) {
+            pattern.append("domain='" + domain);
+            pattern.append("' and ");
+
+        }
+        //将keyword转换为多个字符串,再用%串起来.
+        String[] keyWords = keyWord.split(" ");
+        if (keyWords != null && keyWords.length > 0) {
+            pattern.append(search + " like '");
+            for (String word : keyWords
+            ) {
+                pattern.append("%" + word);
+            }
+            pattern.append("%'");
+        } else {
+            pattern.append(search + " like " + "'%'");
+        }
+        return mDeviceDao.getDevicesByPattern( pattern.toString());
     }
 }
 

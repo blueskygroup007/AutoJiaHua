@@ -98,12 +98,12 @@ public class App extends Application {
 
     public static void putDomain(int domain) {
         mPreferences.edit().putInt(SP_PARAM_SPINNER_DOMAIN, domain).apply();
-
+        HOME_SPINNER_DOMAIN = domain;
     }
 
     public static void putSearch(int search) {
         mPreferences.edit().putInt(SP_PARAM_SPINNER_SEARCH, search).apply();
-
+        HOME_SPINNER_SEARCH = search;
     }
 
 

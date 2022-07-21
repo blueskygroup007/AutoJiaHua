@@ -31,4 +31,7 @@ public interface DeviceDao {
 
     @Query("select * from device where domain=:domain and :search like :keyWord")
     LiveData<List<Device>> getDevicesByKeyWord(String domain, String search, String keyWord);
+
+    @Query("select * from device where :pattern")
+    LiveData<List<Device>> getDevicesByPattern(String pattern);
 }

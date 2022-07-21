@@ -106,7 +106,10 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 String keyWord = s.trim();
-                homeViewModel.setKeyWord(keyWord);
+                if (!keyWord.isEmpty()) {
+                    homeViewModel.setKeyWord(keyWord);
+                    homeViewModel.findDevices();
+                }
                 return false;
             }
 

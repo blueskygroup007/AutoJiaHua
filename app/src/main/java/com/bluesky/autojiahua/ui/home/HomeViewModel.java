@@ -1,5 +1,6 @@
 package com.bluesky.autojiahua.ui.home;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
@@ -17,6 +18,7 @@ public class HomeViewModel extends ViewModel {
     private int mDomain;
     private int mSearch;
     private String mKeyWord="";
+    private LiveData<List<Device>> mLiveDataDevices;
 
     public String getKeyWord() {
         return mKeyWord;
@@ -28,7 +30,8 @@ public class HomeViewModel extends ViewModel {
 
     //ViewModel必须有无参数的构造函数
     public HomeViewModel() {
-        mDevices.addSource(DeviceRepository.getInstance(AutoDatabase.getDatabase(App.getInstance()).deviceDao()).getAllDevices(), new Observer<List<Device>>() {
+        mLiveDataDevices=DeviceRepository.getInstance(AutoDatabase.getDatabase(App.getInstance()).deviceDao()).getAllDevices();
+        mDevices.addSource(mLiveDataDevices, new Observer<List<Device>>() {
             @Override
             public void onChanged(List<Device> devices) {
                 mDevices.setValue(devices);
@@ -63,9 +66,15 @@ public class HomeViewModel extends ViewModel {
     }
 
     public MediatorLiveData<List<Device>> findDevices() {
-        DeviceRepository.getInstance(AutoDatabase.getDatabase(App.getInstance()).deviceDao())
+        mLiveDataDevices=DeviceRepository.getInstance(AutoDatabase.getDatabase(App.getInstance()).deviceDao())
                 .getDeviceBykeyWord(App.DOMAIN[mDomain],App.SEARCH[mSearch],mKeyWord);
         //todo 这里获取到查询数据库的结果LiveData，如何赋值给被监听的mDevices
+        mDevices.addSource(mLiveDataDevices, new Observer<List<Device>>() {
+            @Override
+            public void onChanged(List<Device> devices) {
+                mDevices.setValue(devices);
+            }
+        });
         return mDevices;
     }
 }
