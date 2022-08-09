@@ -1,24 +1,24 @@
 package com.bluesky.autojiahua.ui.home;
 
-import androidx.lifecycle.LiveData;
+import android.util.Log;
+
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.bluesky.autojiahua.bean.Device;
 import com.bluesky.autojiahua.common.App;
-import com.bluesky.autojiahua.database.AutoDatabase;
 import com.bluesky.autojiahua.database.DeviceRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeViewModel extends ViewModel {
 
-    private MediatorLiveData<List<Device>> mDevices=new MediatorLiveData<>();
     private int mDomain;
     private int mSearch;
-    private String mKeyWord="";
-    private LiveData<List<Device>> mLiveDataDevices;
+    private String mKeyWord = "";
+    private MutableLiveData<List<Device>> mLiveDataDevices;
 
     public String getKeyWord() {
         return mKeyWord;
@@ -30,18 +30,13 @@ public class HomeViewModel extends ViewModel {
 
     //ViewModel必须有无参数的构造函数
     public HomeViewModel() {
-        mLiveDataDevices=DeviceRepository.getInstance(AutoDatabase.getDatabase(App.getInstance()).deviceDao()).getAllDevices();
-        mDevices.addSource(mLiveDataDevices, new Observer<List<Device>>() {
-            @Override
-            public void onChanged(List<Device> devices) {
-                mDevices.setValue(devices);
-            }
-        });
-
+        mDomain = App.HOME_SPINNER_DOMAIN;
+        mSearch = App.HOME_SPINNER_SEARCH;
     }
 
+
     public int getDomain() {
-        mDomain=App.HOME_SPINNER_DOMAIN;
+        mDomain = App.HOME_SPINNER_DOMAIN;
         return mDomain;
     }
 
@@ -51,7 +46,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     public int getSearch() {
-        mSearch=App.HOME_SPINNER_SEARCH;
+        mSearch = App.HOME_SPINNER_SEARCH;
         return mSearch;
     }
 
@@ -61,20 +56,19 @@ public class HomeViewModel extends ViewModel {
 
     }
 
-    public MediatorLiveData<List<Device>> getDevices() {
-        return mDevices;
+    public MutableLiveData<List<Device>> getLiveDataDevices() {
+        if (mLiveDataDevices == null) {
+            mLiveDataDevices = DeviceRepository.getInstance().getMutableLiveData();
+        }
+        return mLiveDataDevices;
     }
 
-    public MediatorLiveData<List<Device>> findDevices() {
-        mLiveDataDevices=DeviceRepository.getInstance(AutoDatabase.getDatabase(App.getInstance()).deviceDao())
-                .getDeviceBykeyWord(App.DOMAIN[mDomain],App.SEARCH[mSearch],mKeyWord);
-        //todo 这里获取到查询数据库的结果LiveData，如何赋值给被监听的mDevices
-        mDevices.addSource(mLiveDataDevices, new Observer<List<Device>>() {
-            @Override
-            public void onChanged(List<Device> devices) {
-                mDevices.setValue(devices);
-            }
-        });
-        return mDevices;
+    public void findDevices() {
+        Log.e("HomeViewModel", "findDevices()的参数==  " + App.DOMAIN[mDomain] + "---" + App.SEARCH[mSearch] + "---" + mKeyWord);
+        DeviceRepository.getInstance()
+                .loadDeviceByKeyword(App.DOMAIN[mDomain], App.SEARCH[mSearch], mKeyWord);
+
     }
+
+
 }

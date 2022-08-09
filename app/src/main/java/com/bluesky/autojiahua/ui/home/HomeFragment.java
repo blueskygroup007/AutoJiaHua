@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bluesky.autojiahua.R;
 import com.bluesky.autojiahua.bean.Device;
+import com.bluesky.autojiahua.database.DeviceRepository;
 import com.bluesky.autojiahua.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void subscribeUI(DeviceAdapter adapter) {
-        homeViewModel.getDevices().observe(getViewLifecycleOwner(), adapter::setData);
+        homeViewModel.getLiveDataDevices().observe(getViewLifecycleOwner(), adapter::setData);
 
         //创建recyclerview
         binding.rvList.setLayoutManager(new LinearLayoutManager(getContext()));

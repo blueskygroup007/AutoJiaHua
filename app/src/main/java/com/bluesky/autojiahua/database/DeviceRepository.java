@@ -1,11 +1,21 @@
 package com.bluesky.autojiahua.database;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.bluesky.autojiahua.bean.Device;
 import com.bluesky.autojiahua.common.App;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
 
 /**
  * @author BlueSky
@@ -13,15 +23,20 @@ import java.util.List;
  * Description:
  */
 public class DeviceRepository {
+    private AutoDatabase mDatabase;
     private DeviceDao mDeviceDao;
     private static volatile DeviceRepository INSTANCE;
+    private static MutableLiveData<List<Device>> sMutableLiveData;
+    private ListeningExecutorService mPool;
 
     public DeviceRepository() {
-        AutoDatabase database = AutoDatabase.getDatabase(App.getInstance().getApplicationContext());
-        mDeviceDao = database.deviceDao();
+        mDatabase = AutoDatabase.getDatabase(App.getInstance().getApplicationContext());
+        mDeviceDao = mDatabase.deviceDao();
+        mPool = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(5));
+        sMutableLiveData = new MutableLiveData<>(new ArrayList<>());
     }
 
-    public static DeviceRepository getInstance(DeviceDao deviceDao) {
+    public static DeviceRepository getInstance() {
         if (INSTANCE == null) {
             synchronized (DeviceRepository.class) {
                 if (INSTANCE == null) {
@@ -32,23 +47,47 @@ public class DeviceRepository {
         return INSTANCE;
     }
 
-    public LiveData<List<Device>> getAllDevices() {
-        return mDeviceDao.getAll();
+    //销毁room数据库
+    public void destroy() {
+        if (mDatabase != null && mDatabase.isOpen())
+            INSTANCE = null;
+        mDatabase.close();
+        mDatabase = null;
     }
 
-    public LiveData<List<Device>> getDevicesByTag(String tag) {
-        return mDeviceDao.getDevicesByTag(tag);
+
+    public MutableLiveData<List<Device>> getMutableLiveData() {
+        return sMutableLiveData;
     }
 
-    public LiveData<List<Device>> getDeviceBykeyWord(String domain, String search, String keyWord) {
+/*    public void LoadDevicesByTag(String tag) {
+        ListenableFuture<List<Device>> future = mPool.submit(new Callable<List<Device>>() {
+            @Override
+            public List<Device> call() throws Exception {
+                return mDeviceDao.getDevicesByTag("%" + tag + "%");
+            }
+        });
+        Futures.addCallback(future, new FutureCallback<List<Device>>() {
+            @Override
+            public void onSuccess(List<Device> result) {
+                sMutableLiveData.postValue(result);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        }, mPool);
+    }*/
+
+    public void loadDeviceByKeyword(String domain, String search, String keyWord) {
         StringBuilder pattern = new StringBuilder();
-        //如果domain为空,直接跳过该条件.
+        //如果domain为空,即搜索全部,跳过domain字串拼接
         if (!domain.isEmpty()) {
             pattern.append("domain='" + domain);
             pattern.append("' and ");
-
         }
-        //将keyword转换为多个字符串,再用%串起来.
+        //循环遍历keyWord分割的数组,每个keyword与search做拼接
         String[] keyWords = keyWord.split(" ");
         if (keyWords != null && keyWords.length > 0) {
             pattern.append(search + " like '");
@@ -60,8 +99,28 @@ public class DeviceRepository {
         } else {
             pattern.append(search + " like " + "'%'");
         }
-        return mDeviceDao.getDevicesByPattern( pattern.toString());
+        SimpleSQLiteQuery query = new SimpleSQLiteQuery("select * from device where " + pattern);
+
+
+        ListenableFuture<List<Device>> future = mPool.submit(new Callable<List<Device>>() {
+            @Override
+            public List<Device> call() throws Exception {
+                return mDeviceDao.rawQueryDevicesByPattern(query);
+            }
+        });
+        Futures.addCallback(future, new FutureCallback<List<Device>>() {
+            @Override
+            public void onSuccess(List<Device> result) {
+                sMutableLiveData.postValue(result);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        }, mPool);
     }
+
 }
 
 
