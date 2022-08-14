@@ -1,6 +1,8 @@
 package com.bluesky.autojiahua.database;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
+import androidx.paging.PagingSource;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -32,13 +34,23 @@ public interface DeviceDao {
     @Delete
     void delete(Device device);
 
-    @Query("select * from device where domain=:domain and :search like :keyWord")
-    List<Device> getDevicesByKeyWord(String domain, String search, String keyWord);
+    /*尝试用query加参数的方法查询,并实现分页.未成功*/
+    @Query("select * from device where domain=:domain and :search like (:keyWords)")
+    List<Device> getDevicesByKeyWordWithQuery(String domain, String search, List<String> keyWords);
 
 
+    /**
+     * 该方法试图拼接sqlite的部分查询语句,作为where子句.测试不可行
+     * @param pattern
+     * @return
+     */
     @Query("select * from device where :pattern")
     List<Device> getDevicesByPattern(String pattern);
 
     @RawQuery(observedEntities = Device.class)
     List<Device> rawQueryDevicesByPattern(SupportSQLiteQuery query);
+
+    /*采用jetpack中的paging3分页框架*/
+//    @RawQuery(observedEntities = Device.class)
+//    PagingSource<Integer, Device> LoadAllDevices();
 }

@@ -12,6 +12,7 @@ import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -47,7 +48,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void subscribeUI(DeviceAdapter adapter) {
-        homeViewModel.getLiveDataDevices().observe(getViewLifecycleOwner(), adapter::setData);
+        homeViewModel.getLiveDataDevices().observe(getViewLifecycleOwner(), devices -> {
+            mAdapter.setData(devices);
+            binding.tvColumnTipDisplay.setText(String.valueOf(devices.size()));
+        });
 
         //创建recyclerview
         binding.rvList.setLayoutManager(new LinearLayoutManager(getContext()));

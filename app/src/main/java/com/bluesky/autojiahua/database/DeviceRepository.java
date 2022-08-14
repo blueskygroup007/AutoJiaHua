@@ -13,6 +13,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -60,25 +61,6 @@ public class DeviceRepository {
         return sMutableLiveData;
     }
 
-/*    public void LoadDevicesByTag(String tag) {
-        ListenableFuture<List<Device>> future = mPool.submit(new Callable<List<Device>>() {
-            @Override
-            public List<Device> call() throws Exception {
-                return mDeviceDao.getDevicesByTag("%" + tag + "%");
-            }
-        });
-        Futures.addCallback(future, new FutureCallback<List<Device>>() {
-            @Override
-            public void onSuccess(List<Device> result) {
-                sMutableLiveData.postValue(result);
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        }, mPool);
-    }*/
 
     public void loadDeviceByKeyword(String domain, String search, String keyWord) {
         StringBuilder pattern = new StringBuilder();
@@ -106,6 +88,36 @@ public class DeviceRepository {
             @Override
             public List<Device> call() throws Exception {
                 return mDeviceDao.rawQueryDevicesByPattern(query);
+            }
+        });
+        Futures.addCallback(future, new FutureCallback<List<Device>>() {
+            @Override
+            public void onSuccess(List<Device> result) {
+                sMutableLiveData.postValue(result);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        }, mPool);
+    }
+
+
+    /**
+     * Paging3的测试方法,不使用RawQuery,只用Query来获取查询结果,以便于在数据库查询语句中放置limit行数的参数
+     *
+     * @param domain
+     * @param search
+     * @param keyWord
+     */
+    public void loadDeviceByKeywordWithQuery(String domain, String search, String keyWord) {
+        //注意asList方法返回的list不能add().
+        List<String> keyWords = Arrays.asList(keyWord.split(" "));
+        ListenableFuture<List<Device>> future = mPool.submit(new Callable<List<Device>>() {
+            @Override
+            public List<Device> call() throws Exception {
+                return mDeviceDao.getDevicesByKeyWordWithQuery(domain, search, keyWords);
             }
         });
         Futures.addCallback(future, new FutureCallback<List<Device>>() {

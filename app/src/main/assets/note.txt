@@ -8,3 +8,8 @@
 *.Room的数据库db文件想要拷贝到其他app中使用,则AppDatabase的参数要相同:@Database(entities = {Device.class, InterLock.class}, version = 2,exportSchema = false)
 
 *.ViewModel必须有无参数的构造函数,因为viewmode不是new出来的.
+
+
+
+AS笔记:
+*.git无法push时.勾选use credential helper.(主要原因是授权问题)

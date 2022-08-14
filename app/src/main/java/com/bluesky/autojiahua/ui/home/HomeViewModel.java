@@ -65,8 +65,8 @@ public class HomeViewModel extends ViewModel {
 
     public void findDevices() {
         Log.e("HomeViewModel", "findDevices()的参数==  " + App.DOMAIN[mDomain] + "---" + App.SEARCH[mSearch] + "---" + mKeyWord);
-        DeviceRepository.getInstance()
-                .loadDeviceByKeyword(App.DOMAIN[mDomain], App.SEARCH[mSearch], mKeyWord);
+        //DeviceRepository.getInstance().loadDeviceByKeyword(App.DOMAIN[mDomain], App.SEARCH[mSearch], mKeyWord);
+        DeviceRepository.getInstance().loadDeviceByKeyword(App.DOMAIN[mDomain], App.SEARCH[mSearch], mKeyWord);
 
     }
 
