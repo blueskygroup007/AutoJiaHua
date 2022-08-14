@@ -2,9 +2,14 @@ package com.bluesky.autojiahua.ui.home;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.paging.Pager;
+import androidx.paging.PagingConfig;
+import androidx.paging.PagingData;
+import androidx.paging.PagingLiveData;
 
 import com.bluesky.autojiahua.bean.Device;
 import com.bluesky.autojiahua.common.App;
@@ -20,6 +25,9 @@ public class HomeViewModel extends ViewModel {
     private String mKeyWord = "";
     private MutableLiveData<List<Device>> mLiveDataDevices;
 
+    Pager<Integer, Device> pager;
+
+
     public String getKeyWord() {
         return mKeyWord;
     }
@@ -32,6 +40,12 @@ public class HomeViewModel extends ViewModel {
     public HomeViewModel() {
         mDomain = App.HOME_SPINNER_DOMAIN;
         mSearch = App.HOME_SPINNER_SEARCH;
+        PagingConfig config = new PagingConfig(10);
+        pager = new Pager<>(config, () -> DeviceRepository.getInstance().loadDeviceByKeywordWithQuery(App.DOMAIN[mDomain], App.SEARCH[mSearch], mKeyWord));
+    }
+
+    public LiveData<PagingData<Device>> getAllDevicesByPaging() {
+        return PagingLiveData.cachedIn(PagingLiveData.getLiveData(pager), this);
     }
 
 

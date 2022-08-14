@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bluesky.autojiahua.R;
@@ -30,6 +31,21 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private List<Device> deviceList = new ArrayList<>();
     private DeviceAdapter mAdapter;
+    private DevicePagingAdapter devicePagingAdapter;
+
+
+    class DeviceComparator extends DiffUtil.ItemCallback<Device> {
+
+        @Override
+        public boolean areItemsTheSame(@NonNull Device oldItem, @NonNull Device newItem) {
+            return oldItem.tag.equals(newItem.tag);
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Device oldItem, @NonNull Device newItem) {
+            return oldItem.tag.equals(newItem.tag);
+        }
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -41,6 +57,13 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        /***********************/
+        devicePagingAdapter = new DevicePagingAdapter(new DeviceComparator());
+        homeViewModel.getAllDevicesByPaging().observe(getViewLifecycleOwner(), devicePagingData -> {
+            devicePagingAdapter.submitData(getLifecycle(), devicePagingData);
+        });
+        /***********************/
 
         mAdapter = new DeviceAdapter(deviceList);
         subscribeUI(mAdapter);
@@ -56,8 +79,9 @@ public class HomeFragment extends Fragment {
         //创建recyclerview
         binding.rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvList.setHasFixedSize(true);
-        binding.rvList.setAdapter(mAdapter);
+//        binding.rvList.setAdapter(mAdapter);
 
+        binding.rvList.setAdapter(devicePagingAdapter);
         //当前查询结果的监听
 
         //恢复下拉列表框选择项
@@ -69,7 +93,8 @@ public class HomeFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 homeViewModel.setDomain(i);
                 //查询数据库
-                homeViewModel.findDevices();
+//                homeViewModel.findDevices();
+                homeViewModel.getAllDevicesByPaging();
             }
 
             @Override
@@ -83,7 +108,8 @@ public class HomeFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 homeViewModel.setSearch(i);
                 //查询数据库
-                homeViewModel.findDevices();
+//                homeViewModel.findDevices();
+                homeViewModel.getAllDevicesByPaging();
 
             }
 
@@ -113,7 +139,9 @@ public class HomeFragment extends Fragment {
                 String keyWord = s.trim();
                 if (!keyWord.isEmpty()) {
                     homeViewModel.setKeyWord(keyWord);
-                    homeViewModel.findDevices();
+//                    homeViewModel.findDevices();
+                    homeViewModel.getAllDevicesByPaging();
+
                 }
                 return false;
             }
@@ -129,7 +157,9 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 //搜索内容不为空，查询数据库
                 if (!homeViewModel.getKeyWord().isEmpty()) {
-                    homeViewModel.findDevices();
+//                    homeViewModel.findDevices();
+                    homeViewModel.getAllDevicesByPaging();
+
                 }
             }
         });

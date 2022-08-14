@@ -41,6 +41,7 @@ public interface DeviceDao {
 
     /**
      * 该方法试图拼接sqlite的部分查询语句,作为where子句.测试不可行
+     *
      * @param pattern
      * @return
      */
@@ -51,6 +52,9 @@ public interface DeviceDao {
     List<Device> rawQueryDevicesByPattern(SupportSQLiteQuery query);
 
     /*采用jetpack中的paging3分页框架*/
-//    @RawQuery(observedEntities = Device.class)
-//    PagingSource<Integer, Device> LoadAllDevices();
+    @RawQuery(observedEntities = Device.class)
+    PagingSource<Integer, Device> LoadAllDevices(SupportSQLiteQuery query);
+
+    @Query("select * from device limit 10")
+    PagingSource<Integer, Device> getAllDevicesByPaging();
 }
