@@ -39,12 +39,15 @@ public class DevicePagingAdapter extends PagingDataAdapter<Device, DevicePagingA
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         RvItemDeviceBinding binding = RvItemDeviceBinding.inflate(inflater, parent, false);
         return new DevicePagingAdapter.ViewHolder(binding);
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (getItem(position) != null) {
-            holder.bind(getItem(position), position, createItemClickListener(getItem(position)));
+//            holder.bind(getItem(position), position, createItemClickListener(getItem(position)));
+            holder.mBinding.tvTag.setText(getItem(position).tag);
+            holder.mBinding.tvNumber.setText(String.valueOf(position));
         }
 
     }
@@ -63,7 +66,6 @@ public class DevicePagingAdapter extends PagingDataAdapter<Device, DevicePagingA
     }
 
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         RvItemDeviceBinding mBinding;
 
@@ -72,6 +74,7 @@ public class DevicePagingAdapter extends PagingDataAdapter<Device, DevicePagingA
             //todo 获取控件
             mBinding = binding;
         }
+
 
         void bind(Device device, int position, View.OnClickListener listener) {
             //填充控件内容

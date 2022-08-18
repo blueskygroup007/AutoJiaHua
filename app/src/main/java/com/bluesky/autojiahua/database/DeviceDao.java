@@ -55,6 +55,6 @@ public interface DeviceDao {
     @RawQuery(observedEntities = Device.class)
     PagingSource<Integer, Device> LoadAllDevices(SupportSQLiteQuery query);
 
-    @Query("select * from device limit 10")
+    @Query("SELECT * FROM Device LIMIT 50")
     PagingSource<Integer, Device> getAllDevicesByPaging();
 }

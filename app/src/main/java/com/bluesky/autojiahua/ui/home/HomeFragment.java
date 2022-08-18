@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -60,27 +61,34 @@ public class HomeFragment extends Fragment {
 
         /***********************/
         devicePagingAdapter = new DevicePagingAdapter(new DeviceComparator());
-        homeViewModel.getAllDevicesByPaging().observe(getViewLifecycleOwner(), devicePagingData -> {
-            devicePagingAdapter.submitData(getLifecycle(), devicePagingData);
-        });
+
         /***********************/
 
         mAdapter = new DeviceAdapter(deviceList);
         subscribeUI(mAdapter);
+        homeViewModel.getAllDevicesByPaging().observe(getViewLifecycleOwner(), devicePagingData -> {
+            devicePagingAdapter.submitData(getLifecycle(), devicePagingData);
+        });
         return root;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        homeViewModel.getAllDevicesByPaging();
+
+    }
+
     private void subscribeUI(DeviceAdapter adapter) {
-        homeViewModel.getLiveDataDevices().observe(getViewLifecycleOwner(), devices -> {
+/*        homeViewModel.getLiveDataDevices().observe(getViewLifecycleOwner(), devices -> {
             mAdapter.setData(devices);
             binding.tvColumnTipDisplay.setText(String.valueOf(devices.size()));
-        });
+        });*/
 
         //创建recyclerview
         binding.rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvList.setHasFixedSize(true);
 //        binding.rvList.setAdapter(mAdapter);
-
         binding.rvList.setAdapter(devicePagingAdapter);
         //当前查询结果的监听
 
@@ -140,7 +148,7 @@ public class HomeFragment extends Fragment {
                 if (!keyWord.isEmpty()) {
                     homeViewModel.setKeyWord(keyWord);
 //                    homeViewModel.findDevices();
-                    homeViewModel.getAllDevicesByPaging();
+//                    homeViewModel.getAllDevicesByPaging();
 
                 }
                 return false;
@@ -158,7 +166,7 @@ public class HomeFragment extends Fragment {
                 //搜索内容不为空，查询数据库
                 if (!homeViewModel.getKeyWord().isEmpty()) {
 //                    homeViewModel.findDevices();
-                    homeViewModel.getAllDevicesByPaging();
+//                    homeViewModel.getAllDevicesByPaging();
 
                 }
             }
