@@ -24,7 +24,6 @@ import java.util.List;
  * Description:
  */
 public class DevicePagingAdapter extends PagingDataAdapter<Device, DevicePagingAdapter.ViewHolder> {
-    private List<Device> mData;
     private ViewGroup rv_list;
 
     public DevicePagingAdapter(@NonNull DiffUtil.ItemCallback<Device> diffCallback) {
@@ -45,11 +44,8 @@ public class DevicePagingAdapter extends PagingDataAdapter<Device, DevicePagingA
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (getItem(position) != null) {
-//            holder.bind(getItem(position), position, createItemClickListener(getItem(position)));
-            holder.mBinding.tvTag.setText(getItem(position).tag);
-            holder.mBinding.tvNumber.setText(String.valueOf(position));
+            holder.bind(getItem(position),position, createItemClickListener(getItem(position)));
         }
-
     }
 
 

@@ -59,39 +59,28 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        /***********************/
         devicePagingAdapter = new DevicePagingAdapter(new DeviceComparator());
-
-        /***********************/
-
-        mAdapter = new DeviceAdapter(deviceList);
-        subscribeUI(mAdapter);
-        homeViewModel.getAllDevicesByPaging().observe(getViewLifecycleOwner(), devicePagingData -> {
-            devicePagingAdapter.submitData(getLifecycle(), devicePagingData);
-        });
+        subscribeUI(devicePagingAdapter);
         return root;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        homeViewModel.getAllDevicesByPaging();
 
-    }
-
-    private void subscribeUI(DeviceAdapter adapter) {
-/*        homeViewModel.getLiveDataDevices().observe(getViewLifecycleOwner(), devices -> {
-            mAdapter.setData(devices);
-            binding.tvColumnTipDisplay.setText(String.valueOf(devices.size()));
-        });*/
+    private void subscribeUI(DevicePagingAdapter adapter) {
 
         //创建recyclerview
         binding.rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvList.setHasFixedSize(true);
-//        binding.rvList.setAdapter(mAdapter);
-        binding.rvList.setAdapter(devicePagingAdapter);
-        //当前查询结果的监听
-
+        binding.rvList.setAdapter(adapter);
+        //监听搜索关键字
+        homeViewModel.getLiveDataKeyword().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                //监听查询结果
+                homeViewModel.getAllDevicesByPaging().observe(getViewLifecycleOwner(), devicePagingData -> {
+                    devicePagingAdapter.submitData(getLifecycle(), devicePagingData);
+                });
+            }
+        });
         //恢复下拉列表框选择项
         binding.spinnerQueryDomain.setSelection(homeViewModel.getDomain());
         binding.spinnerQuerySearch.setSelection(homeViewModel.getSearch());
@@ -100,9 +89,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 homeViewModel.setDomain(i);
-                //查询数据库
-//                homeViewModel.findDevices();
-                homeViewModel.getAllDevicesByPaging();
             }
 
             @Override
@@ -115,10 +101,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 homeViewModel.setSearch(i);
-                //查询数据库
-//                homeViewModel.findDevices();
-                homeViewModel.getAllDevicesByPaging();
-
             }
 
             @Override
@@ -147,9 +129,7 @@ public class HomeFragment extends Fragment {
                 String keyWord = s.trim();
                 if (!keyWord.isEmpty()) {
                     homeViewModel.setKeyWord(keyWord);
-//                    homeViewModel.findDevices();
-//                    homeViewModel.getAllDevicesByPaging();
-
+                    homeViewModel.setLiveDataKeyword(keyWord);
                 }
                 return false;
             }
@@ -159,18 +139,7 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
-        //搜索栏关闭事件的监听处理
-        mSearchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //搜索内容不为空，查询数据库
-                if (!homeViewModel.getKeyWord().isEmpty()) {
-//                    homeViewModel.findDevices();
-//                    homeViewModel.getAllDevicesByPaging();
 
-                }
-            }
-        });
     }
 
     @Override

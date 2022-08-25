@@ -34,27 +34,17 @@ public interface DeviceDao {
     @Delete
     void delete(Device device);
 
-    /*尝试用query加参数的方法查询,并实现分页.未成功*/
-    @Query("select * from device where domain=:domain and :search like (:keyWords)")
-    List<Device> getDevicesByKeyWordWithQuery(String domain, String search, List<String> keyWords);
-
-
-    /**
-     * 该方法试图拼接sqlite的部分查询语句,作为where子句.测试不可行
-     *
-     * @param pattern
-     * @return
-     */
-    @Query("select * from device where :pattern")
-    List<Device> getDevicesByPattern(String pattern);
-
     @RawQuery(observedEntities = Device.class)
     List<Device> rawQueryDevicesByPattern(SupportSQLiteQuery query);
 
-    /*采用jetpack中的paging3分页框架*/
+    /**
+     * 采用jetpack中的paging3分页框架,原生查询
+     * @param query
+     * @return
+     */
     @RawQuery(observedEntities = Device.class)
-    PagingSource<Integer, Device> LoadAllDevices(SupportSQLiteQuery query);
+    PagingSource<Integer, Device> LoadAllDevicesByPagingWithKeyword(SupportSQLiteQuery query);
 
-    @Query("SELECT * FROM Device LIMIT 50")
-    PagingSource<Integer, Device> getAllDevicesByPaging();
+/*    @Query("SELECT * FROM Device")
+    PagingSource<Integer, Device> getAllDevicesByPaging();*/
 }

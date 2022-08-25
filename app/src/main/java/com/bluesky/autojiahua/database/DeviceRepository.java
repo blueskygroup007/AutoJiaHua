@@ -63,6 +63,12 @@ public class DeviceRepository {
     }
 
 
+    /**
+     * 使用新的线程池来执行数据库查询
+     * @param domain
+     * @param search
+     * @param keyWord
+     */
     public void loadDeviceByKeyword(String domain, String search, String keyWord) {
         StringBuilder pattern = new StringBuilder();
         //如果domain为空,即搜索全部,跳过domain字串拼接
@@ -126,7 +132,7 @@ public class DeviceRepository {
         }
         SimpleSQLiteQuery query = new SimpleSQLiteQuery("select * from device where " + pattern);
 
-        return mDeviceDao.getAllDevicesByPaging();
+        return mDeviceDao.LoadAllDevicesByPagingWithKeyword(query);
     }
 
 }
