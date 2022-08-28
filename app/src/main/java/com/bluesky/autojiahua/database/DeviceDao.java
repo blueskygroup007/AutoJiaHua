@@ -45,6 +45,5 @@ public interface DeviceDao {
     @RawQuery(observedEntities = Device.class)
     PagingSource<Integer, Device> LoadAllDevicesByPagingWithKeyword(SupportSQLiteQuery query);
 
-/*    @Query("SELECT * FROM Device")
-    PagingSource<Integer, Device> getAllDevicesByPaging();*/
+
 }

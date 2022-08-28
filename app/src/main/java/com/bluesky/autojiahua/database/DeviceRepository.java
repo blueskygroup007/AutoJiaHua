@@ -1,5 +1,7 @@
 package com.bluesky.autojiahua.database;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagingSource;
@@ -65,6 +67,7 @@ public class DeviceRepository {
 
     /**
      * 使用新的线程池来执行数据库查询
+     *
      * @param domain
      * @param search
      * @param keyWord
@@ -131,7 +134,7 @@ public class DeviceRepository {
             pattern.append(search + " like " + "'%'");
         }
         SimpleSQLiteQuery query = new SimpleSQLiteQuery("select * from device where " + pattern);
-
+        Log.e(this.getClass().getSimpleName(), "select * from device where " + pattern);
         return mDeviceDao.LoadAllDevicesByPagingWithKeyword(query);
     }
 

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.Placeholder;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.paging.PagingDataAdapter;
@@ -43,9 +44,9 @@ public class DevicePagingAdapter extends PagingDataAdapter<Device, DevicePagingA
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (getItem(position) != null) {
-            holder.bind(getItem(position),position, createItemClickListener(getItem(position)));
-        }
+//        if (getItem(position) != null) {
+        holder.bind(getItem(position), position, createItemClickListener(getItem(position)));
+//        }
     }
 
 

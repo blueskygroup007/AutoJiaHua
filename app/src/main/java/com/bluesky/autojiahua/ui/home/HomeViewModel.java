@@ -1,6 +1,5 @@
 package com.bluesky.autojiahua.ui.home;
 
-import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -38,11 +37,6 @@ public class HomeViewModel extends ViewModel {
         return mLiveDataKeyword;
     }
 
-    public void setLiveDataKeyword(String keyWord) {
-        mLiveDataKeyword.postValue(keyWord);
-    }
-
-
     public void setKeyWord(String keyWord) {
         mLiveDataKeyword.postValue(keyWord);
         mKeyWord = keyWord;
@@ -54,16 +48,25 @@ public class HomeViewModel extends ViewModel {
         mSearch = App.HOME_SPINNER_SEARCH;
 
         viewModelScope = ViewModelKt.getViewModelScope(this);
-        mConfig = new PagingConfig(10);
+        //enablePlaceholders必须手动指定false,才不会启用占位符.item数量也正确了.
+        mConfig = new PagingConfig(20,5,false);
 
 /*        mConfig = new PagingConfig(pageSize,
-                prefetchDistance,//表示距离底部多少条数据开始预加载，设置0则表示滑到底部才加载
+                prefetchDistance,//
                 enablePlaceholders,
                 initialLoadSize,
                 maxSize,
                 jumpThreshold);*/
 
-//        PagingLiveData.cachedIn(PagingLiveData.getLiveData(pager), this);
+
+/*      pageSize：每页多少个条目；必填
+        prefetchDistance ：表示距离底部多少条数据开始预加载，设置0则表示滑到底部才加载.无缝加载（可选）默认值是pageSize
+        enablePlaceholders：是否启用条目占位，当条目总数量确定的时候；列表一次性展示所有条目，但是没有数据；在adapter的onBindViewHolder里面绑定数据时候，是空数据，判断是空数据展示对应的占位item；可选，默认开启。
+        initialLoadSize ：第一页加载条目数量 ，可选，默认值是 3*pageSize （有时候需要第一页多点数据可用）
+        maxSize ：定义列表最大数量；可选，默认值是：Int.MAX_VALUE
+        jumpThreshold：暂时还不知道用法，从文档注释上看，是滚动大距离导致加载失效的阈值；可选，默认值是：Int.MIN_VALUE （表示禁用此功能）*/
+
+
     }
 
     public LiveData<PagingData<Device>> getAllDevicesByPaging() {
@@ -101,12 +104,5 @@ public class HomeViewModel extends ViewModel {
         }
         return mLiveDataDevices;
     }
-
-    public void findDevices() {
-        Log.e("HomeViewModel", "findDevices()的参数==  " + App.DOMAIN[mDomain] + "---" + App.SEARCH[mSearch] + "---" + mKeyWord);
-        DeviceRepository.getInstance().loadDeviceByKeyword(App.DOMAIN[mDomain], App.SEARCH[mSearch], mKeyWord);
-
-    }
-
 
 }

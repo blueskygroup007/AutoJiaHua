@@ -1,6 +1,7 @@
 package com.bluesky.autojiahua.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.CombinedLoadStates;
+import androidx.paging.LoadState;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -26,12 +29,13 @@ import com.bluesky.autojiahua.databinding.FragmentHomeBinding;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
-    private List<Device> deviceList = new ArrayList<>();
-    private DeviceAdapter mAdapter;
     private DevicePagingAdapter devicePagingAdapter;
 
 
@@ -51,7 +55,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        //435使用options menu
+        //使用options menu
         setHasOptionsMenu(true);
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
@@ -60,6 +64,7 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         devicePagingAdapter = new DevicePagingAdapter(new DeviceComparator());
+
         subscribeUI(devicePagingAdapter);
         return root;
     }
@@ -78,6 +83,11 @@ public class HomeFragment extends Fragment {
                 //监听查询结果
                 homeViewModel.getAllDevicesByPaging().observe(getViewLifecycleOwner(), devicePagingData -> {
                     devicePagingAdapter.submitData(getLifecycle(), devicePagingData);
+                    //显示总条目数量,不成功
+                    binding.tvColumnTipDisplay.setText(String.valueOf(devicePagingAdapter.getItemCount()));
+                    Log.e("getLiveDataKeyword","snapshot.getitem.size= "+adapter.snapshot().getItems().size());
+                    Log.e("getLiveDataKeyword","adapter.getitemcount= "+devicePagingAdapter.getItemCount());
+
                 });
             }
         });
@@ -129,7 +139,6 @@ public class HomeFragment extends Fragment {
                 String keyWord = s.trim();
                 if (!keyWord.isEmpty()) {
                     homeViewModel.setKeyWord(keyWord);
-                    homeViewModel.setLiveDataKeyword(keyWord);
                 }
                 return false;
             }
