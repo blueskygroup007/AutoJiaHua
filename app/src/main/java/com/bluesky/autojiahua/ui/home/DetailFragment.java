@@ -2,15 +2,7 @@ package com.bluesky.autojiahua.ui.home;
 
 import static com.bluesky.autojiahua.common.App.DETAIL_PAGE_SIMPLIFY;
 
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,12 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.bluesky.autojiahua.R;
 import com.bluesky.autojiahua.bean.Device;
 import com.bluesky.autojiahua.common.App;
 import com.bluesky.autojiahua.databinding.FragmentDetailBinding;
-
-import java.io.Serializable;
 
 public class DetailFragment extends Fragment {
 
@@ -36,13 +33,6 @@ public class DetailFragment extends Fragment {
         return new DetailFragment();
     }
 
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.fragment_detail, container, false);
-        mBinding = FragmentDetailBinding.inflate(inflater, container, false);
-        return mBinding.getRoot();
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,15 +40,20 @@ public class DetailFragment extends Fragment {
         if (getArguments() != null) {
             mDevice = (Device) getArguments().getSerializable("device");
         }
+        mBinding = DataBindingUtil.setContentView(requireActivity(), R.layout.fragment_detail);
+        if (mDevice != null) {
+            mBinding.setDevice(mDevice);
+        }
     }
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_fragment_detail,menu);
+        inflater.inflate(R.menu.menu_fragment_detail, menu);
 
-        MenuItem item=menu.findItem(R.id.menu_item_detail_simple);
-        SwitchCompat switchCompat= (SwitchCompat) item.getActionView();
+        MenuItem item = menu.findItem(R.id.menu_item_detail_simple);
+        SwitchCompat switchCompat = (SwitchCompat) item.getActionView();
         switchCompat.setTextOff("全");
         switchCompat.setTextOn("简");
         switchCompat.setShowText(true);
@@ -67,7 +62,7 @@ public class DetailFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 App.setSimply(b);
-                showOrHideDetail(b?View.GONE: View.VISIBLE);
+                showOrHideDetail(b ? View.GONE : View.VISIBLE);
             }
         });
     }
@@ -80,17 +75,13 @@ public class DetailFragment extends Fragment {
         //viewmodel没有使用，直接使用了bundle传过来的device
         mViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
 
-        mBinding.tvDetailContentDomain.setText(App.DOMAIN_DISPLAY.get(mDevice.getDomain()));
+/*        mBinding.tvDetailContentDomain.setText(App.DOMAIN_DISPLAY.get(mDevice.getDomain()));
         mBinding.tvDetailContentTag.setText(mDevice.getTag());
         mBinding.tvDetailContentAffect.setText(mDevice.getAffect());
         mBinding.tvDetailContentParameter.setText(mDevice.getParameter());
         mBinding.tvDetailContentName.setText(mDevice.getName());
         mBinding.tvDetailContentRange.setText(mDevice.getRange());
-
         mBinding.tvDetailContentCount.setText(mDevice.getCount());
-
-        showOrHideDetail(DETAIL_PAGE_SIMPLIFY ? View.GONE : View.VISIBLE);
-
         mBinding.tvDetailContentStandard.setText(mDevice.getStandard());
         mBinding.tvDetailContentMode.setText(mDevice.getMode());
         mBinding.tvDetailContentPipe.setText(mDevice.getPipe());
@@ -99,7 +90,11 @@ public class DetailFragment extends Fragment {
         mBinding.tvDetailContentFactory.setText(mDevice.getFactory());
         mBinding.tvDetailContentRemark.setText(mDevice.getRemark());
         mBinding.tvDetailContentBrand.setText(mDevice.getBrand());
-        mBinding.tvDetailContentDate.setText(mDevice.getDate());
+        mBinding.tvDetailContentDate.setText(mDevice.getDate());*/
+
+        showOrHideDetail(DETAIL_PAGE_SIMPLIFY ? View.GONE : View.VISIBLE);
+
+
     }
 
     private void showOrHideDetail(int visible) {
@@ -113,7 +108,6 @@ public class DetailFragment extends Fragment {
         mBinding.tvDetailContentBrand.setVisibility(visible);
         mBinding.tvDetailContentDate.setVisibility(visible);
     }
-
 
 
 }
