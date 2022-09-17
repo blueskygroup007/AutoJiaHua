@@ -40,12 +40,21 @@ public class DetailFragment extends Fragment {
         if (getArguments() != null) {
             mDevice = (Device) getArguments().getSerializable("device");
         }
+        /*
+        //错误方法(会不显示activity的toolbar,且NavController找不到)
         mBinding = DataBindingUtil.setContentView(requireActivity(), R.layout.fragment_detail);
         if (mDevice != null) {
             mBinding.setDevice(mDevice);
-        }
+        }*/
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mBinding = FragmentDetailBinding.inflate(inflater);
+        //或者mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false);
+        return mBinding.getRoot();
+    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

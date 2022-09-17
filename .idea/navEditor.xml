@@ -8,13 +8,37 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="databaseFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="1024" />
+                            <option name="y" value="8" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="interlockFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="614" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="loginActivity">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-203" />
-                            <option name="y" value="11" />
+                            <option name="x" value="-170" />
+                            <option name="y" value="1" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -25,8 +49,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="228" />
-                            <option name="y" value="16" />
+                            <option name="x" value="26" />
+                            <option name="y" value="469" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -43,7 +67,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_nav_home_to_detailFragment">
+                            <entry key="action_nav_home_to_nav_detail">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -58,8 +82,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="13" />
-                            <option name="y" value="593" />
+                            <option name="x" value="406" />
+                            <option name="y" value="9" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -70,8 +94,20 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="14" />
-                            <option name="y" value="302" />
+                            <option name="x" value="215" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="phoneFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="820" />
+                            <option name="y" value="8" />
                           </Point>
                         </option>
                       </LayoutPositions>
