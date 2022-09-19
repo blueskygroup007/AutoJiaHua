@@ -1,6 +1,11 @@
 package com.bluesky.autojiahua.database;
 
 import androidx.room.Dao;
+import androidx.room.Query;
+
+import com.bluesky.autojiahua.bean.InterLock;
+
+import java.util.List;
 
 /**
  * @author BlueSky
@@ -9,5 +14,6 @@ import androidx.room.Dao;
  */
 @Dao
 public interface InterLockDao {
-
+    @Query("select * from interlock")
+    List<InterLock> getAllInterLock();
 }

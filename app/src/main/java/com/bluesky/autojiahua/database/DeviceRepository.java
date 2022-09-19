@@ -29,6 +29,7 @@ import java.util.concurrent.Executors;
 public class DeviceRepository {
     private AutoDatabase mDatabase;
     private DeviceDao mDeviceDao;
+    private InterLockDao mInterLockDao;
     private static volatile DeviceRepository INSTANCE;
     private static MutableLiveData<List<Device>> sMutableLiveData;
     private ListeningExecutorService mPool;
@@ -36,6 +37,7 @@ public class DeviceRepository {
     public DeviceRepository() {
         mDatabase = AutoDatabase.getDatabase(App.getInstance().getApplicationContext());
         mDeviceDao = mDatabase.deviceDao();
+        mInterLockDao=mDatabase.ingerLockDao();
         mPool = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(5));
         sMutableLiveData = new MutableLiveData<>(new ArrayList<>());
     }
@@ -49,6 +51,14 @@ public class DeviceRepository {
             }
         }
         return INSTANCE;
+    }
+
+    public DeviceDao getDeviceDao() {
+        return mDeviceDao;
+    }
+
+    public InterLockDao getInterLockDao() {
+        return mInterLockDao;
     }
 
     //销毁room数据库
