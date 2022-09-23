@@ -41,7 +41,11 @@
         android:id="@+id/nav_interlock"
         android:name="com.bluesky.autojiahua.ui.interlock.InterlockFragment"
         android:label="fragment_interlock"
-        tools:layout="@layout/fragment_interlock" />
+        tools:layout="@layout/fragment_interlock" >
+        <action
+            android:id="@+id/action_nav_interlock_to_interlockDetailFragment"
+            app:destination="@id/interlockDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_database"
         android:name="com.bluesky.autojiahua.ui.database.DatabaseFragment"
@@ -52,4 +56,9 @@
         android:name="com.bluesky.autojiahua.ui.phone.PhoneFragment"
         android:label="fragment_phone"
         tools:layout="@layout/fragment_phone" />
+    <fragment
+        android:id="@+id/interlockDetailFragment"
+        android:name="com.bluesky.autojiahua.ui.interlock.InterlockDetailFragment"
+        android:label="fragment_interlock_detail"
+        tools:layout="@layout/fragment_interlock_detail" />
 </navigation>
