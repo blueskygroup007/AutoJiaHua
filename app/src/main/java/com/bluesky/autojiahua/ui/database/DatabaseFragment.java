@@ -66,6 +66,9 @@ public class DatabaseFragment extends Fragment {
         trans();
     }
 
+    /**
+     * 转换符合联锁中tag的devices的data字段,以显示不同的lock图标
+     */
     private void trans() {
         DeviceRepository repository = DeviceRepository.getInstance();
         mPool = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(5));
@@ -94,9 +97,11 @@ public class DatabaseFragment extends Fragment {
                         @Override
                         public void onSuccess(List<Device> result) {
                             //对应Tag的devices,理论上只有一个,全修改即可.
-                            Device[] devices = result.toArray(new Device[result.size()]);
-                            deviceDao.insertAll(devices);
-
+                            if (result.size() > 0) {
+                                result.get(0).setDate("alarm");
+                                Device[] devices = result.toArray(new Device[result.size()]);
+                                deviceDao.insertAll(devices);
+                            }
                         }
 
                         @Override

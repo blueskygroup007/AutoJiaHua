@@ -1,5 +1,6 @@
 package com.bluesky.autojiahua.ui.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,6 +79,12 @@ public class DevicePagingAdapter extends PagingDataAdapter<Device, DevicePagingA
             mBinding.tvNumber.setText(String.valueOf(position + 1));
             mBinding.tvTag.setText(device.getTag());
             mBinding.tvAffect.setText(device.getAffect());
+            if (device.getDate() != null && device.getDate().equals("alarm")) {
+                mBinding.ivLock.setImageResource(R.drawable.ic_baseline_lock_enable_24);
+            } else {
+                mBinding.ivLock.setImageResource(R.drawable.ic_baseline_lock_disable_24);
+
+            }
             //把监听器给了root。所以把cardview的clickable去掉。防止拦截
             mBinding.getRoot().setOnClickListener(listener);
         }

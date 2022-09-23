@@ -43,12 +43,12 @@
         android:label="fragment_interlock"
         tools:layout="@layout/fragment_interlock" />
     <fragment
-        android:id="@+id/nav_phone"
+        android:id="@+id/nav_database"
         android:name="com.bluesky.autojiahua.ui.database.DatabaseFragment"
         android:label="fragment_database"
         tools:layout="@layout/fragment_database" />
     <fragment
-        android:id="@+id/nav_database"
+        android:id="@+id/nav_phone"
         android:name="com.bluesky.autojiahua.ui.phone.PhoneFragment"
         android:label="fragment_phone"
         tools:layout="@layout/fragment_phone" />
