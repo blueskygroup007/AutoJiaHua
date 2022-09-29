@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,4 +46,12 @@ public class InterlockFragment extends Fragment {
 
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mAdapter = new InterLockRecyclerViewAdapter(mBinding.rvListInterlock);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext());
+        mBinding.rvListInterlock.setAdapter(mAdapter);
+        mBinding.rvListInterlock.setLayoutManager(linearLayoutManager);
+    }
 }

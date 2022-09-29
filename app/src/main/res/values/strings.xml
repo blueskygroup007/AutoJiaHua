@@ -49,4 +49,5 @@
     <string name="label_phone">联系电话</string>
     <string name="splash_content">欢迎页面</string>
     <string name="btn_splash_enter">进入程序</string>
+    <string name="str_tv_tip_domain">区域</string>
 </resources>
