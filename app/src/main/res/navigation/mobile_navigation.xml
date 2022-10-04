@@ -9,7 +9,7 @@
         android:id="@+id/nav_home"
         android:name="com.bluesky.autojiahua.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/action_nav_home_to_nav_detail"
@@ -30,18 +30,18 @@
     <activity
         android:id="@+id/loginActivity"
         android:name="com.bluesky.autojiahua.LoginActivity"
-        android:label="activity_login"
+        android:label="@string/label_activity_splash"
         tools:layout="@layout/activity_login" />
     <fragment
         android:id="@+id/nav_detail"
         android:name="com.bluesky.autojiahua.ui.home.DetailFragment"
-        android:label="fragment_detail"
+        android:label="@string/menu_detail"
         tools:layout="@layout/fragment_detail" />
     <fragment
         android:id="@+id/nav_interlock"
         android:name="com.bluesky.autojiahua.ui.interlock.InterlockFragment"
-        android:label="fragment_interlock"
-        tools:layout="@layout/fragment_interlock" >
+        android:label="@string/menu_interlock"
+        tools:layout="@layout/fragment_interlock">
         <action
             android:id="@+id/action_nav_interlock_to_interlockDetailFragment"
             app:destination="@id/interlockDetailFragment" />
@@ -49,16 +49,21 @@
     <fragment
         android:id="@+id/nav_database"
         android:name="com.bluesky.autojiahua.ui.database.DatabaseFragment"
-        android:label="fragment_database"
+        android:label="@string/menu_database"
         tools:layout="@layout/fragment_database" />
     <fragment
         android:id="@+id/nav_phone"
         android:name="com.bluesky.autojiahua.ui.phone.PhoneFragment"
-        android:label="fragment_phone"
+        android:label="@string/menu_phone"
         tools:layout="@layout/fragment_phone" />
     <fragment
         android:id="@+id/interlockDetailFragment"
         android:name="com.bluesky.autojiahua.ui.interlock.InterlockDetailFragment"
-        android:label="fragment_interlock_detail"
+        android:label="@string/label_interlock_detail"
         tools:layout="@layout/fragment_interlock_detail" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.bluesky.autojiahua.MainActivity"
+        android:label="app_bar_main"
+        tools:layout="@layout/app_bar_main" />
 </navigation>

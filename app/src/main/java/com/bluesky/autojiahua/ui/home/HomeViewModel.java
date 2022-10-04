@@ -100,7 +100,7 @@ public class HomeViewModel extends ViewModel {
 
     public MutableLiveData<List<Device>> getLiveDataDevices() {
         if (mLiveDataDevices == null) {
-            mLiveDataDevices = DeviceRepository.getInstance().getMutableLiveData();
+            mLiveDataDevices = DeviceRepository.getInstance().getmRepsMutableDevice();
         }
         return mLiveDataDevices;
     }

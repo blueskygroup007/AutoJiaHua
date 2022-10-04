@@ -8,7 +8,9 @@ import androidx.paging.PagingSource;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.bluesky.autojiahua.bean.Device;
+import com.bluesky.autojiahua.bean.InterLock;
 import com.bluesky.autojiahua.common.App;
+import com.bluesky.autojiahua.utils.AppExecutors;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -16,7 +18,6 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -31,15 +32,21 @@ public class DeviceRepository {
     private DeviceDao mDeviceDao;
     private InterLockDao mInterLockDao;
     private static volatile DeviceRepository INSTANCE;
-    private static MutableLiveData<List<Device>> sMutableLiveData;
+    private static MutableLiveData<List<Device>> mRepsMutableDevice;
+    private MutableLiveData<List<InterLock>> mRepsMutableInterlock;
+    //ListenableFuture方式异步线程
     private ListeningExecutorService mPool;
+    //Executor方式异步线程
+    AppExecutors mExecutors = AppExecutors.getInstance();
+
 
     public DeviceRepository() {
         mDatabase = AutoDatabase.getDatabase(App.getInstance().getApplicationContext());
         mDeviceDao = mDatabase.deviceDao();
-        mInterLockDao=mDatabase.ingerLockDao();
+        mInterLockDao = mDatabase.ingerLockDao();
         mPool = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(5));
-        sMutableLiveData = new MutableLiveData<>(new ArrayList<>());
+        mRepsMutableDevice = new MutableLiveData<>();
+        mRepsMutableInterlock = new MutableLiveData<>();
     }
 
     public static DeviceRepository getInstance() {
@@ -53,14 +60,6 @@ public class DeviceRepository {
         return INSTANCE;
     }
 
-    public DeviceDao getDeviceDao() {
-        return mDeviceDao;
-    }
-
-    public InterLockDao getInterLockDao() {
-        return mInterLockDao;
-    }
-
     //销毁room数据库
     public void destroy() {
         if (mDatabase != null && mDatabase.isOpen())
@@ -69,11 +68,27 @@ public class DeviceRepository {
         mDatabase = null;
     }
 
-
-    public MutableLiveData<List<Device>> getMutableLiveData() {
-        return sMutableLiveData;
+    public DeviceDao getDeviceDao() {
+        return mDeviceDao;
     }
 
+    public InterLockDao getInterLockDao() {
+        return mInterLockDao;
+    }
+
+    public MutableLiveData<List<Device>> getmRepsMutableDevice() {
+        if (mRepsMutableDevice.getValue() == null) {
+            //获取所有devices
+        }
+        return mRepsMutableDevice;
+    }
+
+    public MutableLiveData<List<InterLock>> getRepsMutableInterlock() {
+        if (mRepsMutableInterlock.getValue() == null) {
+            getAllInterLock();
+        }
+        return mRepsMutableInterlock;
+    }
 
     /**
      * 使用新的线程池来执行数据库查询
@@ -113,7 +128,7 @@ public class DeviceRepository {
         Futures.addCallback(future, new FutureCallback<List<Device>>() {
             @Override
             public void onSuccess(List<Device> result) {
-                sMutableLiveData.postValue(result);
+                mRepsMutableDevice.postValue(result);
             }
 
             @Override
@@ -148,6 +163,24 @@ public class DeviceRepository {
         return mDeviceDao.LoadAllDevicesByPagingWithKeyword(query);
     }
 
+    public void getInterLockByDomain(String domain) {
+
+        mExecutors.getDatabaseIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mRepsMutableInterlock.postValue(mInterLockDao.getInterLockByDomain(domain));
+            }
+        });
+    }
+
+    public void getAllInterLock() {
+        mExecutors.getDatabaseIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mRepsMutableInterlock.postValue(mInterLockDao.getAllInterLock());
+            }
+        });
+    }
 }
 
 

@@ -1,5 +1,6 @@
 package com.bluesky.autojiahua.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 
@@ -15,5 +16,11 @@ import java.util.List;
 @Dao
 public interface InterLockDao {
     @Query("select * from interlock")
+    List<InterLock> LoadAllInterLock();
+
+    @Query("select * from interlock")
     List<InterLock> getAllInterLock();
+
+    @Query("select * from interlock where domain like :domain")
+    List<InterLock> getInterLockByDomain(String domain);
 }

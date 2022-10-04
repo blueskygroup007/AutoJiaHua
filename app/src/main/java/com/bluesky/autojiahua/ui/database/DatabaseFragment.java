@@ -12,12 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bluesky.autojiahua.R;
 import com.bluesky.autojiahua.bean.Device;
 import com.bluesky.autojiahua.bean.InterLock;
 import com.bluesky.autojiahua.database.DeviceDao;
 import com.bluesky.autojiahua.database.DeviceRepository;
-import com.bluesky.autojiahua.database.InterLockDao;
 import com.bluesky.autojiahua.databinding.FragmentDatabaseBinding;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -75,7 +73,7 @@ public class DatabaseFragment extends Fragment {
         ListenableFuture<List<InterLock>> future = mPool.submit(new Callable<List<InterLock>>() {
             @Override
             public List<InterLock> call() throws Exception {
-                return repository.getInterLockDao().getAllInterLock();
+                return repository.getInterLockDao().LoadAllInterLock();
             }
         });
 
