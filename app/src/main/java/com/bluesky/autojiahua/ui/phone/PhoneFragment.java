@@ -1,7 +1,5 @@
 package com.bluesky.autojiahua.ui.phone;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,8 +14,6 @@ import com.bluesky.autojiahua.R;
 
 public class PhoneFragment extends Fragment {
 
-    private PhoneViewModel mViewModel;
-
     public static PhoneFragment newInstance() {
         return new PhoneFragment();
     }
@@ -28,11 +24,6 @@ public class PhoneFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_phone, container, false);
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(PhoneViewModel.class);
-        // TODO: Use the ViewModel
-    }
+
 
 }

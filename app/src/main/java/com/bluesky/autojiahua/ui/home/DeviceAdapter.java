@@ -44,14 +44,11 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
     }
 
     private View.OnClickListener createItemClickListener(Device device) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavController controller = Navigation.findNavController(rv_list);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("device", device);
-                controller.navigate(R.id.action_nav_home_to_nav_detail, bundle);
-            }
+        return view -> {
+            NavController controller = Navigation.findNavController(rv_list);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("device", device);
+            controller.navigate(R.id.action_nav_home_to_nav_detail, bundle);
         };
     }
 

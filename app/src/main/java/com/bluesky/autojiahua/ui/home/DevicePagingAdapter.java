@@ -1,13 +1,11 @@
 package com.bluesky.autojiahua.ui.home;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.Placeholder;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.paging.PagingDataAdapter;
@@ -17,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bluesky.autojiahua.R;
 import com.bluesky.autojiahua.bean.Device;
 import com.bluesky.autojiahua.databinding.RvItemDeviceBinding;
-
-import java.util.List;
 
 /**
  * @author BlueSky
@@ -52,14 +48,11 @@ public class DevicePagingAdapter extends PagingDataAdapter<Device, DevicePagingA
 
 
     private View.OnClickListener createItemClickListener(Device device) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavController controller = Navigation.findNavController(rv_list);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("device", device);
-                controller.navigate(R.id.action_nav_home_to_nav_detail, bundle);
-            }
+        return view -> {
+            NavController controller = Navigation.findNavController(rv_list);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("device", device);
+            controller.navigate(R.id.action_nav_home_to_nav_detail, bundle);
         };
     }
 

@@ -1,7 +1,5 @@
 package com.bluesky.autojiahua.ui.monitor;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,8 +14,6 @@ import com.bluesky.autojiahua.R;
 
 public class MonitorFragment extends Fragment {
 
-    private MonitorViewModel mViewModel;
-
     public static MonitorFragment newInstance() {
         return new MonitorFragment();
     }
@@ -28,11 +24,5 @@ public class MonitorFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_monitor, container, false);
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(MonitorViewModel.class);
-        // TODO: Use the ViewModel
-    }
 
 }

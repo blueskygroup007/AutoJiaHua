@@ -12,25 +12,15 @@ import android.widget.AdapterView;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.paging.CombinedLoadStates;
-import androidx.paging.LoadState;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bluesky.autojiahua.R;
 import com.bluesky.autojiahua.bean.Device;
-import com.bluesky.autojiahua.database.DeviceRepository;
 import com.bluesky.autojiahua.databinding.FragmentHomeBinding;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 
 public class HomeFragment extends Fragment {
 
@@ -77,19 +67,16 @@ public class HomeFragment extends Fragment {
         binding.rvList.setHasFixedSize(true);
         binding.rvList.setAdapter(adapter);
         //监听搜索关键字
-        homeViewModel.getLiveDataKeyword().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                //监听查询结果
-                homeViewModel.getAllDevicesByPaging().observe(getViewLifecycleOwner(), devicePagingData -> {
-                    devicePagingAdapter.submitData(getLifecycle(), devicePagingData);
-                    //显示总条目数量,不成功
-                    binding.tvColumnTipDisplay.setText(String.valueOf(devicePagingAdapter.getItemCount()));
-                    Log.e("getLiveDataKeyword","snapshot.getitem.size= "+adapter.snapshot().getItems().size());
-                    Log.e("getLiveDataKeyword","adapter.getitemcount= "+devicePagingAdapter.getItemCount());
+        homeViewModel.getLiveDataKeyword().observe(getViewLifecycleOwner(), s -> {
+            //监听查询结果
+            homeViewModel.getAllDevicesByPaging().observe(getViewLifecycleOwner(), devicePagingData -> {
+                devicePagingAdapter.submitData(getLifecycle(), devicePagingData);
+                //显示总条目数量,不成功
+                binding.tvColumnTipDisplay.setText(String.valueOf(devicePagingAdapter.getItemCount()));
+                Log.e("getLiveDataKeyword","snapshot.getitem.size= "+adapter.snapshot().getItems().size());
+                Log.e("getLiveDataKeyword","adapter.getitemcount= "+devicePagingAdapter.getItemCount());
 
-                });
-            }
+            });
         });
         //恢复下拉列表框选择项
         binding.spinnerQueryDomain.setSelection(homeViewModel.getDomain());

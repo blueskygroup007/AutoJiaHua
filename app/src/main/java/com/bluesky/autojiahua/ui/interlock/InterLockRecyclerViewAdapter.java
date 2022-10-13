@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class InterLockRecyclerViewAdapter extends RecyclerView.Adapter<InterLockRecyclerViewAdapter.InterLockViewHolder> {
 
-    private RecyclerView mRecyclerView;
+    private final RecyclerView mRecyclerView;
     private List<InterLock> mData = new ArrayList<>();
 
     public InterLockRecyclerViewAdapter(RecyclerView recyclerView) {
@@ -47,15 +47,12 @@ public class InterLockRecyclerViewAdapter extends RecyclerView.Adapter<InterLock
         holder.tvName.setText(interLock.getDevice_name());
         holder.tvDomain.setText(interLock.getDomain());
         holder.root.setTag(position);
-        holder.root.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InterLock interlock = mData.get((Integer) v.getTag());
-                NavController controller = Navigation.findNavController(mRecyclerView);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("interlock", interLock);
-                controller.navigate(R.id.action_nav_interlock_to_interlockDetailFragment, bundle);
-            }
+        holder.root.setOnClickListener(v -> {
+            InterLock interlock = mData.get((Integer) v.getTag());
+            NavController controller = Navigation.findNavController(mRecyclerView);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("interlock", interLock);
+            controller.navigate(R.id.action_nav_interlock_to_interlockDetailFragment, bundle);
         });
     }
 
@@ -70,8 +67,11 @@ public class InterLockRecyclerViewAdapter extends RecyclerView.Adapter<InterLock
     }
 
     public class InterLockViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNumber, tvTag, tvDomain, tvName;
-        CardView root;
+        final TextView tvNumber;
+        final TextView tvTag;
+        final TextView tvDomain;
+        final TextView tvName;
+        final CardView root;
 
         public InterLockViewHolder(@NonNull View itemView) {
             super(itemView);

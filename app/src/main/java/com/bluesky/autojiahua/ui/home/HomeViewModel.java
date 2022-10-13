@@ -26,7 +26,7 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<String> mLiveDataKeyword;
     private MutableLiveData<List<Device>> mLiveDataDevices;
 
-    CoroutineScope viewModelScope;
+    final CoroutineScope viewModelScope;
     Pager<Integer, Device> pager;
 
     public MutableLiveData<String> getLiveDataKeyword() {

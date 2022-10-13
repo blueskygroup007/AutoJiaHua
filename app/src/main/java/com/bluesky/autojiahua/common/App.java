@@ -15,7 +15,7 @@ public class App extends Application {
     private static App app;
 
     private static SharedPreferences mPreferences;
-    public static String SP_NAME = "auto_preference";
+    public static final String SP_NAME = "auto_preference";
     //详情页的全-简切换按钮常量与记录
     public static boolean DETAIL_PAGE_SIMPLIFY = false;
     public static final String SP_PARAM_SIMPLE = "detail_page_simplify";
@@ -28,9 +28,9 @@ public class App extends Application {
 
 
     //详情页的区域对照map
-    public static Map<String, String> DOMAIN_DISPLAY;
+    public static final Map<String, String> DOMAIN_DISPLAY;
 
-    {
+    static {
         DOMAIN_DISPLAY = new HashMap<>();
         DOMAIN_DISPLAY.put("chuleng", "初冷");
         DOMAIN_DISPLAY.put("cubenzhengliu", "粗苯蒸馏");

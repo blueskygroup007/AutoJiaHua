@@ -25,7 +25,6 @@ import com.bluesky.autojiahua.databinding.FragmentDetailBinding;
 
 public class DetailFragment extends Fragment {
 
-    private DetailViewModel mViewModel;
     private FragmentDetailBinding mBinding;
     private Device mDevice;
 
@@ -40,10 +39,6 @@ public class DetailFragment extends Fragment {
         if (getArguments() != null) {
             mDevice = (Device) getArguments().getSerializable("device");
         }
-/*        mBinding = DataBindingUtil.setContentView(requireActivity(), R.layout.fragment_detail);
-        if (mDevice != null) {
-            mBinding.setDevice(mDevice);
-        }*/
     }
 
     @Nullable
@@ -69,12 +64,9 @@ public class DetailFragment extends Fragment {
         switchCompat.setTextOn("简");
         switchCompat.setShowText(true);
         switchCompat.setChecked(DETAIL_PAGE_SIMPLIFY);
-        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                App.setSimply(b);
-                showOrHideDetail(b ? View.GONE : View.VISIBLE);
-            }
+        switchCompat.setOnCheckedChangeListener((compoundButton, b) -> {
+            App.setSimply(b);
+            showOrHideDetail(b ? View.GONE : View.VISIBLE);
         });
     }
 
@@ -84,24 +76,7 @@ public class DetailFragment extends Fragment {
         //必须加这一行代码才能有菜单
         setHasOptionsMenu(true);
         //viewmodel没有使用，直接使用了bundle传过来的device
-        mViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
-
-/*        mBinding.tvDetailContentDomain.setText(App.DOMAIN_DISPLAY.get(mDevice.getDomain()));
-        mBinding.tvDetailContentTag.setText(mDevice.getTag());
-        mBinding.tvDetailContentAffect.setText(mDevice.getAffect());
-        mBinding.tvDetailContentParameter.setText(mDevice.getParameter());
-        mBinding.tvDetailContentName.setText(mDevice.getName());
-        mBinding.tvDetailContentRange.setText(mDevice.getRange());
-        mBinding.tvDetailContentCount.setText(mDevice.getCount());
-        mBinding.tvDetailContentStandard.setText(mDevice.getStandard());
-        mBinding.tvDetailContentMode.setText(mDevice.getMode());
-        mBinding.tvDetailContentPipe.setText(mDevice.getPipe());
-        mBinding.tvDetailContentType.setText(mDevice.getType());
-        mBinding.tvDetailContentInstall.setText(mDevice.getInstall());
-        mBinding.tvDetailContentFactory.setText(mDevice.getFactory());
-        mBinding.tvDetailContentRemark.setText(mDevice.getRemark());
-        mBinding.tvDetailContentBrand.setText(mDevice.getBrand());
-        mBinding.tvDetailContentDate.setText(mDevice.getDate());*/
+        DetailViewModel viewModel = new ViewModelProvider(this).get(DetailViewModel.class);
 
         showOrHideDetail(DETAIL_PAGE_SIMPLIFY ? View.GONE : View.VISIBLE);
 

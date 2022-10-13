@@ -1,27 +1,20 @@
 package com.bluesky.autojiahua.ui.interlock;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.os.Binder;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.bluesky.autojiahua.R;
-import com.bluesky.autojiahua.bean.InterLock;
 import com.bluesky.autojiahua.database.DeviceRepository;
 import com.bluesky.autojiahua.databinding.FragmentInterlockBinding;
-
-import java.util.List;
 
 public class InterlockFragment extends Fragment {
 
@@ -39,17 +32,10 @@ public class InterlockFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(InterlockViewModel.class);
 
         mBinding = FragmentInterlockBinding.inflate(inflater, container, false);
-        View root = mBinding.getRoot();
         //return inflater.inflate(R.layout.fragment_interlock, container, false);
-        return root;
+        return mBinding.getRoot();
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // TODO: Use the ViewModel
-
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -61,15 +47,12 @@ public class InterlockFragment extends Fragment {
         mBinding.rvListInterlock.setAdapter(mAdapter);
         mBinding.rvListInterlock.setHasFixedSize(true);
         //监听查询数据
-        mViewModel.getData().observe(getViewLifecycleOwner(), new Observer<List<InterLock>>() {
-            @Override
-            public void onChanged(List<InterLock> interLocks) {
+            mViewModel.getData().observe(getViewLifecycleOwner(), interLocks -> {
                 if (interLocks != null) {
                     mAdapter.setData(interLocks);
                     mBinding.tvInterlockColumnCount.setText(String.valueOf(interLocks.size()));
                 }
-            }
-        });
+            });
         //恢复界面元素
         mBinding.spinnerInterlockDomain.setSelection(mViewModel.getDomainPosition());
         //下拉列表点击监听

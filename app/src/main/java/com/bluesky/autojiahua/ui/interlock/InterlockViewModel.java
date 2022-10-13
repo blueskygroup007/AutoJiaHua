@@ -13,7 +13,7 @@ public class InterlockViewModel extends ViewModel {
     // TODO: Implement the ViewModel
 
     private MutableLiveData<List<InterLock>> mData;
-    private int domainPosition = 0;
+    private int domainPosition;
 
     public InterlockViewModel() {
         mData = new MutableLiveData<>(new ArrayList<>());

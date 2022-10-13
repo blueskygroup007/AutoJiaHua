@@ -13,23 +13,17 @@ import com.bluesky.autojiahua.databinding.ActivityLoginBinding;
 public class LoginActivity extends AppCompatActivity {
 
 
-    private ActivityLoginBinding binding;
-    private Button mBtnEnter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        com.bluesky.autojiahua.databinding.ActivityLoginBinding binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mBtnEnter = binding.btnSplashEnter;
-        mBtnEnter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(mainIntent);
-                finish();
-            }
+        Button btnEnter = binding.btnSplashEnter;
+        btnEnter.setOnClickListener(view -> {
+            Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(mainIntent);
+            finish();
         });
         initData();
     }

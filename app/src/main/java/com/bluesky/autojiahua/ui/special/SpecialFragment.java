@@ -1,7 +1,5 @@
 package com.bluesky.autojiahua.ui.special;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,8 +14,6 @@ import com.bluesky.autojiahua.R;
 
 public class SpecialFragment extends Fragment {
 
-    private SpecialViewModel mViewModel;
-
     public static SpecialFragment newInstance() {
         return new SpecialFragment();
     }
@@ -28,11 +24,6 @@ public class SpecialFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_special, container, false);
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(SpecialViewModel.class);
-        // TODO: Use the ViewModel
-    }
+
 
 }

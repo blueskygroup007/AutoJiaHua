@@ -1,13 +1,7 @@
 package com.bluesky.autojiahua.utils;
 
-/**
- * @author BlueSky
- * @date 2021/12/31
- * Description:
- */
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
@@ -37,10 +31,6 @@ public class AppExecutors {
         }
         return INSTANCE;
     }
-
-//    public  AppExecutors() {
-//        this(new DiskIOThreadExecutor(), Executors.newFixedThreadPool(THREAD_COUNT), new MainThreadExecutor(), Executors.newFixedThreadPool(THREAD_COUNT));
-//    }
 
     public Executor getDiskIO() {
         return diskIO;
