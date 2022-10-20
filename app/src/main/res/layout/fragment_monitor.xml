@@ -1,13 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.monitor.MonitorFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_monitor"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Monitor" />
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <RadioGroup
+        android:id="@+id/rg_group_monitor"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <RadioButton
+            android:id="@+id/rb_huachan_monitor"
+            style="@style/style_tabhost_menu_radiobutton"
+            android:drawableTop="@drawable/ic_baseline_computer_24"
+            android:text="@string/str_menu_tab_monitor" />
+        <RadioButton
+            android:id="@+id/rb_zhisuan_monitor"
+            style="@style/style_tabhost_menu_radiobutton"
+            android:drawableTop="@drawable/ic_baseline_computer_24"
+            android:text="@string/str_menu_tab_monitor_huachan_zhisuan" />
+        <RadioButton
+            android:id="@+id/rb_ganxijiao_monitor"
+            style="@style/style_tabhost_menu_radiobutton"
+            android:drawableTop="@drawable/ic_baseline_computer_24"
+            android:text="@string/str_menu_tab_monitor_ganxijiao" />
+        <RadioButton
+            android:id="@+id/rb_jiaolu_monitor"
+            style="@style/style_tabhost_menu_radiobutton"
+            android:drawableTop="@drawable/ic_baseline_computer_24"
+            android:text="@string/str_menu_tab_jiaolu" />
+    </RadioGroup>
+</androidx.constraintlayout.widget.ConstraintLayout>
