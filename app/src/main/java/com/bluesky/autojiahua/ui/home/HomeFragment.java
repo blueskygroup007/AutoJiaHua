@@ -68,16 +68,28 @@ public class HomeFragment extends Fragment {
         binding.rvList.setAdapter(adapter);
         //监听搜索关键字
         homeViewModel.getLiveDataKeyword().observe(getViewLifecycleOwner(), s -> {
+            //查询数量
+            homeViewModel.queryDevicesCount();
             //监听查询结果
             homeViewModel.getAllDevicesByPaging().observe(getViewLifecycleOwner(), devicePagingData -> {
                 devicePagingAdapter.submitData(getLifecycle(), devicePagingData);
-                //显示总条目数量,不成功
+                //显示总条目数量,不成功,改用变通方法:查询数据库返回数量
+
                 binding.tvColumnTipDisplay.setText(String.valueOf(devicePagingAdapter.getItemCount()));
-                Log.e("getLiveDataKeyword","snapshot.getitem.size= "+adapter.snapshot().getItems().size());
-                Log.e("getLiveDataKeyword","adapter.getitemcount= "+devicePagingAdapter.getItemCount());
+                Log.e("getLiveDataKeyword", "snapshot.getitem.size= " + adapter.snapshot().getItems().size());
+                Log.e("getLiveDataKeyword", "adapter.getitemcount= " + devicePagingAdapter.getItemCount());
 
             });
         });
+
+        //查询数量监听
+        homeViewModel.getCountDevices().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                binding.tvColumnTipDisplay.setText(String.valueOf(integer));
+            }
+        });
+
         //恢复下拉列表框选择项
         binding.spinnerQueryDomain.setSelection(homeViewModel.getDomain());
         binding.spinnerQuerySearch.setSelection(homeViewModel.getSearch());

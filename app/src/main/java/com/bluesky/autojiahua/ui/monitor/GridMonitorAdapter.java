@@ -60,6 +60,7 @@ public class GridMonitorAdapter extends RecyclerView.Adapter<GridMonitorAdapter.
 
     public void setData(List<BeanMonitor> data) {
         mData = data;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

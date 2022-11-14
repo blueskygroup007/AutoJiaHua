@@ -25,13 +25,12 @@ public class HomeViewModel extends ViewModel {
     private String mKeyWord = "";
     private MutableLiveData<String> mLiveDataKeyword;
     private MutableLiveData<List<Device>> mLiveDataDevices;
-
     final CoroutineScope viewModelScope;
     Pager<Integer, Device> pager;
 
     public MutableLiveData<String> getLiveDataKeyword() {
-        if (mLiveDataKeyword==null){
-            mLiveDataKeyword=new MutableLiveData<>();
+        if (mLiveDataKeyword == null) {
+            mLiveDataKeyword = new MutableLiveData<>();
             mLiveDataKeyword.setValue("");
         }
         return mLiveDataKeyword;
@@ -49,7 +48,7 @@ public class HomeViewModel extends ViewModel {
 
         viewModelScope = ViewModelKt.getViewModelScope(this);
         //enablePlaceholders必须手动指定false,才不会启用占位符.item数量也正确了.
-        mConfig = new PagingConfig(20,5,false);
+        mConfig = new PagingConfig(20, 5, false);
 
 /*        mConfig = new PagingConfig(pageSize,
                 prefetchDistance,//
@@ -67,6 +66,14 @@ public class HomeViewModel extends ViewModel {
         jumpThreshold：暂时还不知道用法，从文档注释上看，是滚动大距离导致加载失效的阈值；可选，默认值是：Int.MIN_VALUE （表示禁用此功能）*/
 
 
+    }
+
+    public MutableLiveData<Integer> getCountDevices() {
+        return DeviceRepository.getInstance().getmCountDevice();
+    }
+
+    public void queryDevicesCount() {
+        DeviceRepository.getInstance().countDeviceByKeyword(App.DOMAIN[mDomain], App.SEARCH[mSearch], mKeyWord);
     }
 
     public LiveData<PagingData<Device>> getAllDevicesByPaging() {

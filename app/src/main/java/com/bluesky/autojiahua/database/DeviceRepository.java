@@ -16,6 +16,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -31,6 +32,7 @@ public class DeviceRepository {
     private static volatile DeviceRepository INSTANCE;
     private static MutableLiveData<List<Device>> mRepsMutableDevice;
     private final MutableLiveData<List<InterLock>> mRepsMutableInterlock;
+    private static MutableLiveData<Integer> mCountDevice;
     //ListenableFuture方式异步线程
     private final ListeningExecutorService mPool;
     //Executor方式异步线程
@@ -44,6 +46,7 @@ public class DeviceRepository {
         mPool = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(5));
         mRepsMutableDevice = new MutableLiveData<>();
         mRepsMutableInterlock = new MutableLiveData<>();
+        mCountDevice = new MutableLiveData<>();
     }
 
     public static DeviceRepository getInstance() {
@@ -76,7 +79,8 @@ public class DeviceRepository {
 
     public MutableLiveData<List<Device>> getmRepsMutableDevice() {
         if (mRepsMutableDevice.getValue() == null) {
-            //获取所有devices
+            //赋一个空list
+            mRepsMutableDevice.setValue(new ArrayList<>());
         }
         return mRepsMutableDevice;
     }
@@ -86,6 +90,49 @@ public class DeviceRepository {
             getAllInterLock();
         }
         return mRepsMutableInterlock;
+    }
+
+    public MutableLiveData<Integer> getmCountDevice() {
+        if (mCountDevice.getValue() == null) {
+            mCountDevice.setValue(0);
+        }
+        return mCountDevice;
+    }
+
+    public void countDeviceByKeyword(String domain, String search, String keyWord) {
+        StringBuilder pattern = new StringBuilder();
+        //如果domain为空,即搜索全部,跳过domain字串拼接
+        if (!domain.isEmpty()) {
+            pattern.append("domain='").append(domain);
+            pattern.append("' and ");
+        }
+        //循环遍历keyWord分割的数组,每个keyword与search做拼接
+        String[] keyWords = keyWord.split(" ");
+        if (keyWords.length > 0) {
+            pattern.append(search).append(" like '");
+            for (String word : keyWords
+            ) {
+                pattern.append("%").append(word);
+            }
+            pattern.append("%'");
+        } else {
+            pattern.append(search).append(" like ").append("'%'");
+        }
+        SimpleSQLiteQuery query = new SimpleSQLiteQuery("select count(*) from device where " + pattern);
+
+
+        ListenableFuture<Integer> future = mPool.submit(() -> mDeviceDao.rawCountQueryDevicesByPattern(query));
+        Futures.addCallback(future, new FutureCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer result) {
+                mCountDevice.postValue(result);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        }, mPool);
     }
 
     /**

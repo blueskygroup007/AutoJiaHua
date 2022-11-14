@@ -36,8 +36,12 @@ public interface DeviceDao {
     @RawQuery(observedEntities = Device.class)
     List<Device> rawQueryDevicesByPattern(SupportSQLiteQuery query);
 
+    @RawQuery(observedEntities = Device.class)
+    int rawCountQueryDevicesByPattern(SupportSQLiteQuery query);
+
     /**
      * 采用jetpack中的paging3分页框架,原生查询
+     *
      * @param query
      * @return
      */
