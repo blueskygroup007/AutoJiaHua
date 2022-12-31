@@ -20,7 +20,11 @@
         android:id="@+id/nav_monitor"
         android:name="com.bluesky.autojiahua.ui.monitor.MonitorFragment"
         android:label="@string/menu_monitor"
-        tools:layout="@layout/fragment_monitor" />
+        tools:layout="@layout/fragment_monitor" >
+        <action
+            android:id="@+id/action_nav_monitor_to_monitorDetailFragment"
+            app:destination="@id/monitorDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_special"
@@ -66,4 +70,9 @@
         android:name="com.bluesky.autojiahua.MainActivity"
         android:label="app_bar_main"
         tools:layout="@layout/app_bar_main" />
+    <fragment
+        android:id="@+id/monitorDetailFragment"
+        android:name="com.bluesky.autojiahua.ui.monitor.MonitorDetailFragment"
+        android:label="fragment_monitor_detail"
+        tools:layout="@layout/fragment_monitor_detail" />
 </navigation>

@@ -3,12 +3,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.bluesky.autojiahua"
         minSdk 21
-        targetSdk 32
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -29,6 +29,7 @@ android {
         viewBinding true
         dataBinding true
     }
+    buildToolsVersion '31.0.0'
 }
 
 dependencies {
@@ -51,5 +52,8 @@ dependencies {
 
     implementation 'androidx.room:room-runtime:2.4.2'
     annotationProcessor 'androidx.room:room-compiler:2.4.2'
+
+    //ToDo 图片查看库
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
 
 }

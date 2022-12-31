@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InterlockViewModel extends ViewModel {
-    // TODO: Implement the ViewModel
 
     private MutableLiveData<List<InterLock>> mData;
     private int domainPosition;

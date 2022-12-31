@@ -111,7 +111,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
-        //Todo 初始化全局变量
+        // 初始化全局变量
         mPreferences = getSharedPreferences(SP_NAME, MODE_PRIVATE);
         DETAIL_PAGE_SIMPLIFY = mPreferences.getBoolean(SP_PARAM_SIMPLE, false);
         HOME_SPINNER_DOMAIN = mPreferences.getInt(SP_PARAM_SPINNER_DOMAIN, 0);

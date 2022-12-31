@@ -2,6 +2,7 @@ package com.bluesky.autojiahua.ui.monitor;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bluesky.autojiahua.R;
@@ -24,6 +27,8 @@ public class GridMonitorAdapter extends RecyclerView.Adapter<GridMonitorAdapter.
 
     private List<BeanMonitor> mData;
     private OnThumbClickListener mListener;
+    private ViewGroup rv_list;
+
 
     public GridMonitorAdapter(List<BeanMonitor> data) {
         mData = data;
@@ -33,7 +38,7 @@ public class GridMonitorAdapter extends RecyclerView.Adapter<GridMonitorAdapter.
     @NonNull
     @Override
     public GridMonitorAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+        rv_list=parent;
         Context context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.rv_item_monitor, null);
         ViewHolder holder = new ViewHolder(view);
@@ -82,9 +87,16 @@ public class GridMonitorAdapter extends RecyclerView.Adapter<GridMonitorAdapter.
             //TODO 新方案是使用第三方库展示图片,优点是可以添加功能:输入工位号可以直接定位.
 
             int position = (int) v.getTag();
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.addCategory(Intent.CATEGORY_DEFAULT);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            Intent intent = new Intent(Intent.ACTION_VIEW);
+//            intent.addCategory(Intent.CATEGORY_DEFAULT);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            //todo 使用第三方图片查看库
+
+            NavController controller = Navigation.findNavController(rv_list);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("BeanMonitor", mData.get(position));
+            controller.navigate(R.id.action_nav_monitor_to_monitorDetailFragment, bundle);
 
         }
     }

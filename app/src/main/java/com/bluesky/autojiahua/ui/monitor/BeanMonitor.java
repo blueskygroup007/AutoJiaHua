@@ -1,11 +1,13 @@
 package com.bluesky.autojiahua.ui.monitor;
 
+import java.io.Serializable;
+
 /**
  * @author BlueSky
  * @date 22.10.20
  * Description:
  */
-public class BeanMonitor {
+public class BeanMonitor implements Serializable {
     private String id;
     private String name;
     private int thumb;
