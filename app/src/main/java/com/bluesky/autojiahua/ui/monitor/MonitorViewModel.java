@@ -12,7 +12,7 @@ public class MonitorViewModel extends ViewModel {
     private List<BeanMonitor> mListPicHuaChanMain = new ArrayList<>();
     private List<BeanMonitor> mListPicHuaChanZhiSuan = new ArrayList<>();
     private List<BeanMonitor> mListPicGanXiJiao = new ArrayList<>();
-    private List<BeanMonitor> mListPicJiaoLu = new ArrayList<>();
+    private List<BeanMonitor> mListPicJiaoLu =   new ArrayList<>();
 
 
 
