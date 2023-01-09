@@ -56,4 +56,8 @@ dependencies {
     //ToDo 图片查看库
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
 
+
+    //树形菜单
+    implementation 'com.github.bmelnychuk:atv:1.2.+'
+
 }

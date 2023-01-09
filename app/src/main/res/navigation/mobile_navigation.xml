@@ -30,7 +30,11 @@
         android:id="@+id/nav_special"
         android:name="com.bluesky.autojiahua.ui.special.SpecialFragment"
         android:label="@string/menu_special"
-        tools:layout="@layout/fragment_special" />
+        tools:layout="@layout/fragment_special" >
+        <action
+            android:id="@+id/action_nav_special_to_specialMenuFragment"
+            app:destination="@id/specialMenuFragment" />
+    </fragment>
     <activity
         android:id="@+id/loginActivity"
         android:name="com.bluesky.autojiahua.LoginActivity"
@@ -75,4 +79,9 @@
         android:name="com.bluesky.autojiahua.ui.monitor.MonitorDetailFragment"
         android:label="fragment_monitor_detail"
         tools:layout="@layout/fragment_monitor_detail" />
+    <fragment
+        android:id="@+id/specialMenuFragment"
+        android:name="com.bluesky.autojiahua.ui.special.SpecialMenuFragment"
+        android:label="fragment_special_menu"
+        tools:layout="@layout/fragment_special_menu" />
 </navigation>
